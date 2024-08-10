@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 # Change your executable name to something creative!
 set(NAME dvhstx-boilerplate) # <-- Name your project/executable here!
-set(PICO_PLATFORM rp2350)
+if (NOT PICO_PLATFORM)
+    set(PICO_PLATFORM rp2350)
+endif()
 
 include(pico_sdk_import.cmake)
 include(pimoroni_pico_import.cmake)

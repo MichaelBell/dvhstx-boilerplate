@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             name: Linux
             cache-key: linux
             cmake-args: '-DPIMORONI_PICO_PATH=$GITHUB_WORKSPACE/pimoroni-pico -DPICO_DVHSTX_PATH=$GITHUB_WORKSPACE/dvhstx -DPICO_SDK_PATH=$GITHUB_WORKSPACE/pico-sdk -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install'
@@ -62,9 +62,15 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt update && sudo apt install ${{matrix.apt-packages}}
+        mkdir toolchain
+        cd toolchain
+        wget https://buildbot.embecosm.com/job/riscv32-gcc-ubuntu2204-release/10/artifact/riscv32-embecosm-ubuntu2204-gcc13.2.0.tar.gz
+        tar xzf riscv32-embecosm-ubuntu2204-gcc13.2.0.tar.gz
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: |
+        cmake -E make_directory ${{runner.workspace}}/build
+        cmake -E make_directory ${{runner.workspace}}/build-riscv
 
     - name: Configure CMake
       shell: bash
@@ -77,17 +83,16 @@ jobs:
       run: |
         cmake --build . --config $BUILD_TYPE -j 2
 
-    # TODO: Need to work out where we can install the toolchain from
-    #- name: Configure CMake RiscV
-    #  shell: bash
-    #  working-directory: ${{runner.workspace}}/build-riscv
-    #  run: cmake $GITHUB_WORKSPACE/project -DPICO_PLATFORM=rp2350-riscv -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCPACK_PACKAGE_FILE_NAME=${{env.RELEASE_FILE}} ${{matrix.cmake-args}}
+    - name: Configure CMake RiscV
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-riscv
+      run: cmake $GITHUB_WORKSPACE/project -DPICO_PLATFORM=rp2350-riscv -DPICO_TOOLCHAIN_PATH=$GITHUB_WORKSPACE/toolchain/riscv32-embecosm-ubuntu2204-gcc13.2.0 -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCPACK_PACKAGE_FILE_NAME=${{env.RELEASE_FILE}} ${{matrix.cmake-args}}
 
-    #- name: Build RiscV
-    #  working-directory: ${{runner.workspace}}/build-riscv
-    #  shell: bash
-    #  run: |
-    #    cmake --build . --config $BUILD_TYPE -j 2
+    - name: Build RiscV
+      working-directory: ${{runner.workspace}}/build-riscv
+      shell: bash
+      run: |
+        cmake --build . --config $BUILD_TYPE -j 2
 
     - name: Build Release Packages
       if: github.event_name == 'release'
