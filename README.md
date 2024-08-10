@@ -1,6 +1,6 @@
 # DV HSTX C++ Boilerplate Project <!-- omit in toc -->
 
-This project is intended as a starting point for creating projects with the [DV HSTX](https://github.com/MichaelBell/dvhstx-boilerplate) library, along with the Pico SDK and Pimoroni Libraries in C++.
+This project is intended as a starting point for creating projects with the [DV HSTX](https://github.com/MichaelBell/dvhstx) library, along with the Pico SDK and Pimoroni Libraries in C++.
 
 - [Before you start](#before-you-start)
 - [Preparing your build environment](#preparing-your-build-environment)
