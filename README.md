@@ -1,6 +1,6 @@
-# Pico C++ Boilerplate Project <!-- omit in toc -->
+# DV HSTX C++ Boilerplate Project <!-- omit in toc -->
 
-This project is intended as a starting point for working with the Pico SDK and Pimoroni Libraries in C++.
+This project is intended as a starting point for creating projects with the DV HSTX library, along with the Pico SDK and Pimoroni Libraries in C++.
 
 - [Before you start](#before-you-start)
 - [Preparing your build environment](#preparing-your-build-environment)
@@ -12,7 +12,7 @@ This project is intended as a starting point for working with the Pico SDK and P
 
 ## Before you start
 
-It's easier if you make a `pico` directory or similar in which you keep the SDK, Pimoroni Libraries and your projects alongside each other. This makes it easier to include libraries.
+It's easier if you make a `pico` directory or similar in which you keep the SDK, Pimoroni and DV HSTX Libraries and your projects alongside each other. This makes it easier to include libraries.
 
 ## Preparing your build environment
 
@@ -47,11 +47,17 @@ export PICO_SDK_PATH="/path/to/pico-sdk"
 git clone https://github.com/pimoroni/pimoroni-pico
 ```
 
+## Grab the DV HSTX library
+
+```
+git clone https://github.com/MichaelBell/dvhstx
+```
+
 ## Clone this boilerplate
 
 ```
-git clone https://github.com/pimoroni/pico-boilerplate
-cd pico-boilerplate
+git clone https://github.com/MichaelBell/dvhstx-boilerplate
+cd dvhstx-boilerplate
 ```
 
 If you have not or don't want to set `PICO_SDK_PATH` you can edit `.vscode/settings.json` to pass the path directly to CMake.
